@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// A DingleMod published to the platform catalog (Modrinth-style).
+model Mod {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  tagline     String // short one-liner for cards
+  description String // long-form description (markdown-lite)
+  version     String
+  author      String
+  category    String // fun | mobs | items | gameplay | utility | horror | silly
+  tags        String // comma separated
+  iconEmoji   String
+  iconFrom    String // gradient start color
+  iconTo      String // gradient end color
+  downloads   Int      @default(0)
+  follows     Int      @default(0)
+  permissions String // comma separated permission keys
+  manifest    String // full .dinglemod.json (stringified)
+  code        String // mod.js source embedded in manifest
+  isOfficial  Boolean  @default(false)
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([isOfficial])
+}

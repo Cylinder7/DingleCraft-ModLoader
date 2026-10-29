@@ -1,0 +1,22 @@
+# Render Blueprint — deploys the DingleMod Launcher (Next.js + SQLite).
+# Full guide: DEPLOY-RENDER.md
+#
+# Free plan: SQLite lives at /tmp and is EPHEMERAL — the service re-creates
+# and re-seeds the official mod catalog on every restart, but community mods
+# uploaded through the site are reset. For persistence, add a Render Disk and
+# switch DATABASE_URL to file:/var/data/dinglecraft.db (see DEPLOY-RENDER.md).
+services:
+  - type: web
+    name: dinglemod-launcher
+    runtime: node
+    plan: free
+    buildCommand: npm install --include=dev && npx prisma generate && npm run build
+    startCommand: npx prisma db push --skip-generate --accept-data-loss && node .next/standalone/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOSTNAME
+        value: 0.0.0.0
+      - key: DATABASE_URL
+        value: file:/tmp/dinglecraft.db
+    healthCheckPath: /
