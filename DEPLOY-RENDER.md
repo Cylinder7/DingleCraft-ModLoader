@@ -141,6 +141,7 @@ Open `http://localhost:3000` — this is exactly what Render runs.
 | --- | --- |
 | Build fails at `prisma generate` | Make sure `prisma/schema.prisma` is committed and the build command runs `npx prisma generate`. |
 | `Error: DB not found` / 500 on `/api/mods` | The start command must run `npx prisma db push ...` **before** `node .next/standalone/server.js`. |
+| Build fails: `Failed to collect page data for /api/mods/...` | Prisma client was never generated before `next build`. This repo prevents it three ways: `postinstall: prisma generate` (runs on every `npm install`), `serverExternalPackages` in `next.config.ts`, and no `bun.lock` in the repo (Render must build with npm, not bun — bun skips these hooks). |
 | Game card says "not found" | `public/game/DINGLECRAFT.html` wasn't committed — check the repo (it's ~42 MB; verify your git LFS/push actually included it). |
 | Uploaded mods vanished | Expected on the free tier — see §4. |
 | Slow first load | The browser fetches 42 MB once per session, then it's cached in memory. Deploying closer to users or enabling a CDN in front of Render helps. |

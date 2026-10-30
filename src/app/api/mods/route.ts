@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+
+// This route talks to the database — never evaluate it at build time.
+export const dynamic = "force-dynamic";
 import { MODS_A } from "@/lib/builtin-mods-a";
 import { MODS_B } from "@/lib/builtin-mods-b";
 import { MODS_QOL } from "@/lib/builtin-mods-qol";

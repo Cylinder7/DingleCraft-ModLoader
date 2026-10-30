@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
+// This route talks to the database — never evaluate it at build time.
+export const dynamic = "force-dynamic";
+
 // GET /api/mods/[slug]/download — returns the .dinglemod.json file and bumps the counter
 export async function GET(
   _req: NextRequest,

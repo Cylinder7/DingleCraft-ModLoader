@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { toDTOShared } from "@/lib/mod-dto";
 
+// This route talks to the database — never evaluate it at build time.
+export const dynamic = "force-dynamic";
+
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
